@@ -49,5 +49,5 @@ Initial release, no upgrade needed.
 
 == Arbitrary section ==
 
-The plugin was inspired by the hillarious comics found here: [Reddit Rage Comics](http://www.reddit.com/r/fffffffuuuuuuuuuuuu "fffffffuuuuuuuuuuuu")
+The plugin was inspired by the hilarious comics found here: [Reddit Rage Comics](http://www.reddit.com/r/fffffffuuuuuuuuuuuu "fffffffuuuuuuuuuuuu")
 Thanks to [Know Your Meme](http://knowyourmeme.com/memes/rage-comics/children) for collecting the info and basically making my job easier.
