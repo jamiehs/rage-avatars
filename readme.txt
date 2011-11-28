@@ -53,7 +53,7 @@ Added a few new avatars, no other changes.
 = 1.0.0 =
 Initial release, no upgrade needed.
 
-== Arbitrary section ==
+== Inspiration ==
 
 The plugin was inspired by the hilarious comics found here: [Reddit Rage Comics](http://www.reddit.com/r/fffffffuuuuuuuuuuuu "fffffffuuuuuuuuuuuu")
 Thanks to [Know Your Meme](http://knowyourmeme.com/memes/rage-comics/children) for collecting the info and basically making my job easier.
