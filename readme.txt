@@ -39,18 +39,18 @@ Yes, but be warned that updating the plugin will delete your custom images. Ther
 
 == Changelog ==
 
-= 1.1 =
+= 1.0.1 =
 * Added New Avatars: "mind blown (OMG)", "seriously? (female)", "derpina (happy)", "derpina (omg)", "derpina (curious)" 
 
-= 1.0 =
+= 1.0.0 =
 * This is the initial version.
 
 == Upgrade Notice ==
 
-= 1.1 =
+= 1.0.1 =
 Added a few new avatars, no other changes.
 
-= 1.0 =
+= 1.0.0 =
 Initial release, no upgrade needed.
 
 == Arbitrary section ==

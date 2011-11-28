@@ -3,7 +3,7 @@
 Plugin Name: Rage Avatars
 Plugin URI: http://jamie3d.com/
 Description: Replace your avatar-less users Gravatars with "rage comic avatars"
-Version: 1.1
+Version: 1.0.1
 Author: jamie3d
 Author URI: http://jamie3d.com
 License: GPL
@@ -12,7 +12,7 @@ License: GPL
 class RageAvatars {
     var $namespace = "rage-avatars";
     var $friendly_name = "Rage Avatars";
-    var $version = "1.1";
+    var $version = "1.0.1";
 
     // Default plugin options
 	var $avatars = false;
