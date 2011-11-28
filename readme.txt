@@ -40,7 +40,7 @@ Yes, but be warned that updating the plugin will delete your custom images. Ther
 == Changelog ==
 
 = 1.1 =
-* Added new avatars: "mind blown (OMG)", "seriously? (female)", "derpina (happy)", "derpina (omg)", "derpina (curious)" 
+* Added New Avatars: "mind blown (OMG)", "seriously? (female)", "derpina (happy)", "derpina (omg)", "derpina (curious)" 
 
 = 1.0 =
 * This is the initial version.
