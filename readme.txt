@@ -15,14 +15,14 @@ This plugin will replace all of the default avatars on your blog with rage comic
 More specifically, it passes the rage faces as the default argument when the request for the user's Gravatar is made. It also utilizes TimThumb for image compression and resizing. 
 
 == Installation ==
-1. Upload `rage-avatars` folder to the `/wp-content/plugins/` directory
+1. Upload the `rage-avatars` folder to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Frequently Asked Questions ==
 
 = Will this break anything =
 
-Maybe.
+Maybe. I have tried to make the plugin only touch Gravatrs though, so you should be fine.
 
 = Can I assign specific avatars to users? =
 
@@ -39,10 +39,16 @@ Yes, but be warned that updating the plugin will delete your custom images. Ther
 
 == Changelog ==
 
+= 1.1 =
+* Added new avatars: "mind blown (OMG)", "seriously? (female)", "derpina (happy)", "derpina (omg)", "derpina (curious)" 
+
 = 1.0 =
 * This is the initial version.
 
 == Upgrade Notice ==
+
+= 1.1 =
+Added a few new avatars, no other changes.
 
 = 1.0 =
 Initial release, no upgrade needed.
