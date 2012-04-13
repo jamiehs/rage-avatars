@@ -3,7 +3,7 @@ Contributors: jamie3d
 Donate Link: http://goo.gl/WD5Z8
 Tags: rage, avatars, reddit, meme, default, avatar, replacement
 Requires at least: 3.0
-Tested up to: 3.2.1
+Tested up to: 3.3.1
 Stable tag: trunk
 
 Replace your avatar-less users Gravatars with rage comic avatars such as those popular on Reddit.
@@ -38,6 +38,9 @@ Yes, but be warned that updating the plugin will delete your custom images. Ther
 2. Here is the plugin on a more populated blog. Notice that the images are transparent and Chris Hopf's avatar is consistent with his entries even though that avatar is randomly assigned. Michael Barber has a Gravatar so his was left untouched.
 
 == Changelog ==
+
+= 1.0.2 =
+* Updated the version of Timthumb and adjusted compatibility information
 
 = 1.0.1 =
 * Added New Avatars: "mind blown (OMG)", "seriously? (female)", "derpina (happy)", "derpina (omg)", "derpina (curious)" 
