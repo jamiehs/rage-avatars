@@ -3,7 +3,7 @@ Contributors: jamie3d
 Donate Link: http://goo.gl/WD5Z8
 Tags: rage, avatars, reddit, meme, default, avatar, replacement
 Requires at least: 3.0
-Tested up to: 3.3.1
+Tested up to: 3.4.1
 Stable tag: trunk
 
 Replace your avatar-less users Gravatars with rage comic avatars such as those popular on Reddit.
