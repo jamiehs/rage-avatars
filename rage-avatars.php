@@ -39,12 +39,6 @@ class RageAvatars {
 		// Add a nifty admin menu item.
         add_action( 'admin_menu', array( &$this, 'admin_menu' ) );
 
-        // Register all scripts for this plugin
-        $this->wp_register_scripts();
-
-        // Register all styles for this plugin
-        $this->wp_register_styles();
-        
         // Load all library files used by this plugin
         $libs = glob( RAGE_AVATARS_DIRNAME . '/lib/*.php' );
         foreach( $libs as $lib ) {
@@ -130,6 +124,12 @@ class RageAvatars {
      * Adds all the filters and hooks
      */
     function add_hooks() {
+        // Register all JavaScripts for this plugin
+        add_action( 'init', array( &$this, 'wp_register_scripts' ), 1 );
+        
+        // Register all Stylesheets for this plugin
+        add_action( 'init', array( &$this, 'wp_register_styles' ), 1 );
+        
         // Add Avatar Filter
         add_filter( 'get_avatar', array( $this, 'filter_avatar' ), 1, 5 );
     }
@@ -331,7 +331,7 @@ class RageAvatars {
      */
     function wp_register_scripts() {
         // Admin JavaScript
-        wp_register_script( "{$this->namespace}-admin", RAGE_AVATARS_URLPATH . "/javascripts/{$this->namespace}-admin.js", array( 'jquery' ), RAGE_AVATARS_VERSION, true );
+        //wp_register_script( "{$this->namespace}-admin", RAGE_AVATARS_URLPATH . "/javascripts/{$this->namespace}-admin.js", array( 'jquery' ), RAGE_AVATARS_VERSION, true );
     }
 
     /**
