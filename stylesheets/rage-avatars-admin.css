@@ -2,33 +2,6 @@
 	padding-top: 2em;
 	overflow: hidden;
 }
-#y-u-no-header,
-#options-instructions{
-	margin-bottom: 5em;
-}
-#y-u-no-header{
-    border: 0.5em solid #000000;
-    text-align: center;
-    width: 50%;
-    float: left;
-}
-#y-u-no-header h4{
-	font-family: Arial, Helvetica, sans-serif;
-	text-transform: uppercase;
-	font-weight: bold;
-	font-size: 3.5em;
-	line-height: 1em;
-	margin: 0;
-	color: #000;
-	padding: 0.5em 0;
-}
-#options-instructions{
-	float: left;
-	width: 45%;
-}
-#options-instructions .inner{
-	padding: 0 3em;
-}
 #thanks{
 	clear: both;
 }

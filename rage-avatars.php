@@ -3,16 +3,18 @@
 Plugin Name: Rage Avatars
 Plugin URI: http://jamie3d.com/
 Description: Replace your avatar-less users Gravatars with "rage comic avatars"
-Version: 1.0.2
+Version: 1.0.3
 Author: jamie3d
 Author URI: http://jamie3d.com
 License: GPL
 */
 
+// Include constants file
+require_once( dirname( __FILE__ ) . '/lib/constants.php' );
+
 class RageAvatars {
     var $namespace = "rage-avatars";
     var $friendly_name = "Rage Avatars";
-    var $version = "1.0.2";
 
     // Default plugin options
 	var $avatars = false;
@@ -23,14 +25,13 @@ class RageAvatars {
      * Instantiation construction
      */
     function __construct() {
-        // Directory path to this plugin's files
-        $this->dir_name = dirname( __FILE__ );
-        
-        // URL path to this plugin's files
-        $this->url_path = WP_PLUGIN_URL . "/" . plugin_basename( dirname( __FILE__ ) );
-        
         // Name of the option_value to store plugin options in
         $this->option_name = '_' . $this->namespace . '--options';
+        
+        // Set and Translate defaults
+        $this->defaults = array(
+            'foo' => 'bar'
+        );
 		
 		// Load the avatars from the directory.
 		$this->load_images();
@@ -43,11 +44,96 @@ class RageAvatars {
 
         // Register all styles for this plugin
         $this->wp_register_styles();
-
-		// Add Avatar Filter
-		add_filter( 'get_avatar', array( $this, 'filter_avatar' ), 1, 5 );
+        
+        // Load all library files used by this plugin
+        $libs = glob( RAGE_AVATARS_DIRNAME . '/lib/*.php' );
+        foreach( $libs as $lib ) {
+            include_once( $lib );
+        }
+        
+        // Add all action, filter and shortcode hooks
+        $this->add_hooks();
     }
-	
+    
+    /**
+     * Process update page form submissions
+     * 
+     * @uses ::sanitize()
+     * @uses wp_redirect()
+     * @uses wp_verify_nonce()
+     */
+    private function _admin_options_update() {
+        // Verify submission for processing using wp_nonce
+        if( wp_verify_nonce( $_REQUEST['_wpnonce'], "{$this->namespace}-update-options" ) ) {
+            $data = array();
+            /**
+             * Loop through each POSTed value and sanitize it to protect against malicious code. Please
+             * note that rich text (or full HTML fields) should not be processed by this function and 
+             * dealt with directly.
+             */
+            foreach( $_POST['data'] as $key => $val ) {
+                $data[$key] = $this->_sanitize( $val );
+            }
+            
+            /**
+             * Place your options processing and storage code here
+             */
+             
+            // Update the options value with the data submitted
+            update_option( $this->option_name, $data );
+            
+            wp_safe_redirect( $_REQUEST['_wp_http_referer'] );
+            exit;
+        }
+    }
+
+    /**
+     * Sanitize data
+     * 
+     * @param mixed $str The data to be sanitized
+     * 
+     * @uses wp_kses()
+     * 
+     * @return mixed The sanitized version of the data
+     */
+    private function _sanitize( $str ) {
+        if ( !function_exists( 'wp_kses' ) ) {
+            require_once( ABSPATH . 'wp-includes/kses.php' );
+        }
+        global $allowedposttags;
+        global $allowedprotocols;
+        
+        if ( is_string( $str ) ) {
+            $str = wp_kses( $str, $allowedposttags, $allowedprotocols );
+        } elseif( is_array( $str ) ) {
+            $arr = array();
+            foreach( (array) $str as $key => $val ) {
+                $arr[$key] = $this->_sanitize( $val );
+            }
+            $str = $arr;
+        }
+        
+        return $str;
+    }
+
+    /**
+     * Hook into register_activation_hook action
+     * 
+     * Put code here that needs to happen when your plugin is first activated (database
+     * creation, permalink additions, etc.)
+     */
+    static function activate() {
+        // Do activation actions
+    }
+    
+    /**
+     * Adds all the filters and hooks
+     */
+    function add_hooks() {
+        // Add Avatar Filter
+        add_filter( 'get_avatar', array( $this, 'filter_avatar' ), 1, 5 );
+    }
+    
 	/**
 	 * Filter Avatar
 	 * 
@@ -86,7 +172,34 @@ class RageAvatars {
 		
 		return preg_replace('/src=([\'"])([^"\']+)/', "src=$1{$new_gravatar_url}", $avatar );
 	}
-	
+
+    /**
+     * Retrieve the stored plugin option or the default if no user specified value is defined
+     * 
+     * @param string $option_name The name of the option you wish to retrieve
+     * 
+     * @uses get_option()
+     * 
+     * @return mixed Returns the option value or false(boolean) if the option is not found
+     */
+    function get_option( $option_name, $reload = false ) {
+        // If reload is true, kill the existing options value so it gets fetched fresh.
+        if( $reload )
+            $this->options = null;
+        
+        // Load option values if they haven't been loaded already
+        if( !isset( $this->options ) || empty( $this->options ) ) {
+            $this->options = get_option( $this->option_name, $this->defaults );
+        }
+        
+        if( isset( $this->options[$option_name] ) ) {
+            return $this->options[$option_name];    // Return user's specified option value
+        } elseif( isset( $this->defaults[$option_name] ) ) {
+            return $this->defaults[$option_name];   // Return default option value
+        }
+        return false;
+    }
+
 	/**
 	 * Get Rage Avatar
 	 * 
@@ -103,13 +216,9 @@ class RageAvatars {
 	 * @return string TimThumb ready URL of the new default avatar for the user.
 	 */
 	private function get_rage_avatar( $author_email_hash, $size ){
-		// Load the timthumb lib.
-		$timthumb_url = $this->plugins_url( 'lib/timthumb.php?src=' );
-		$timthumb_params = "&w={$size}&h={$size}";
-		
 		// Create an integer based on the user's email and then mod it with the total count... ta da!
 		$psuedo_random_integer = abs( crc32( $author_email_hash ) % $this->avatar_count );
-		return $timthumb_url . plugins_url( $this->avatars_dir . '/' . $this->avatars[ $psuedo_random_integer ] , __FILE__ ) . $timthumb_params;
+		return  plugins_url( $this->avatars_dir . '/' . $this->avatars[ $psuedo_random_integer ] , __FILE__ );
 	}
 	
 	/**
@@ -181,7 +290,7 @@ class RageAvatars {
         }
         $page_title = $this->friendly_name . ' Options';
         $namespace = $this->namespace;
-        include( "{$this->dir_name}/views/options.php" );
+        include( RAGE_AVATARS_DIRNAME . "/views/options.php" );
     }
 
     /**
@@ -208,9 +317,11 @@ class RageAvatars {
      * Instantiates the class on a global variable and sets the class, actions
      * etc. up for use.
      */
-    function instance() {
+    static function instance() {
         global $RageAvatars;
-        $RageAvatars = new RageAvatars();
+        
+        // Only instantiate the Class if it hasn't been already
+        if( !isset( $RageAvatars ) ) $RageAvatars = new RageAvatars();
     }
 	
     /**
@@ -220,7 +331,7 @@ class RageAvatars {
      */
     function wp_register_scripts() {
         // Admin JavaScript
-        wp_register_script( "{$this->namespace}-admin", "{$this->url_path}/javascripts/{$this->namespace}-admin.js", array( 'jquery' ), $this->version, true );
+        wp_register_script( "{$this->namespace}-admin", RAGE_AVATARS_URLPATH . "/javascripts/{$this->namespace}-admin.js", array( 'jquery' ), RAGE_AVATARS_VERSION, true );
     }
 
     /**
@@ -230,7 +341,7 @@ class RageAvatars {
      */
     function wp_register_styles() {
         // Admin Stylesheet
-        wp_register_style( "{$this->namespace}-admin", "{$this->url_path}/stylesheets/{$this->namespace}-admin.css", array(), $this->version, 'screen' );
+        wp_register_style( "{$this->namespace}-admin", RAGE_AVATARS_URLPATH . "/stylesheets/{$this->namespace}-admin.css", array(), RAGE_AVATARS_VERSION, 'screen' );
     }
 	
 	// Helper debug function
@@ -253,5 +364,8 @@ class RageAvatars {
     }
 }
 
-// Initiatie the PluginTemplate class at the WordPress init action
-add_action( 'init', array( 'RageAvatars', 'instance' ) );
+if( !isset( $RageAvatars ) ) {
+    RageAvatars::instance();
+}
+register_activation_hook( __FILE__, array( 'RageAvatars', 'activate' ) );
+register_deactivation_hook( __FILE__, array( 'RageAvatars', 'deactivate' ) );

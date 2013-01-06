@@ -3,7 +3,7 @@ Contributors: jamie3d
 Donate Link: http://goo.gl/WD5Z8
 Tags: rage, avatars, reddit, meme, default, avatar, replacement
 Requires at least: 3.0
-Tested up to: 3.4.1
+Tested up to: 3.5
 Stable tag: trunk
 
 Replace your avatar-less users Gravatars with rage comic avatars such as those popular on Reddit.
@@ -12,7 +12,7 @@ Replace your avatar-less users Gravatars with rage comic avatars such as those p
 
 This plugin will replace all of the default avatars on your blog with rage comic faces.
 
-More specifically, it passes the rage faces as the default argument when the request for the user's Gravatar is made. It also utilizes TimThumb for image compression and resizing. 
+More specifically, it passes the rage faces as the default argument when the request for the user's Gravatar is made.
 
 == Installation ==
 1. Upload the `rage-avatars` folder to the `/wp-content/plugins/` directory
@@ -38,6 +38,9 @@ Yes, but be warned that updating the plugin will delete your custom images. Ther
 2. Here is the plugin on a more populated blog. Notice that the images are transparent and Chris Hopf's avatar is consistent with his entries even though that avatar is randomly assigned. Michael Barber has a Gravatar so his was left untouched.
 
 == Changelog ==
+
+= 1.0.3 =
+* Removed TimThumb, and tweaked code for organization. This should fix the error some users have been experiencing.
 
 = 1.0.2 =
 * Updated the version of Timthumb and adjusted compatibility information
